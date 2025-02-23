@@ -48,8 +48,9 @@
       };
   
       
-      boardStore.columns[0].items.push(newTask);
-  
+      boardStore.columns[1].items.push(newTask);
+      boardStore.sucsessToast='Задача создана в «Новые»'
+      boardStore.editingElem = newTask
 
       closeAddTaskForm();
     }
