@@ -2,9 +2,10 @@
 import RowWrapper from '@/components/RowWrapper.vue'
 import TaskItem from '@/components/TaskItem.vue'
 import { useBoardStore } from '@/store/index';
+import PopupLayout from './components/layouts/PopupLayout.vue';
 
   const kanbanStore = useBoardStore();
-  const { columns } = kanbanStore;
+  const { columns,deletePopupState } = kanbanStore;
 
   function onDragStart(item:any) {
     kanbanStore.setDraggedItem(item);
@@ -16,6 +17,7 @@ import { useBoardStore } from '@/store/index';
 </script>
 
 <template>
+  
  <div class="body">
   <RowWrapper
   v-for="column in columns"
@@ -29,12 +31,15 @@ import { useBoardStore } from '@/store/index';
     v-for="item in column.items"
     :desc="item?.desc"
     :key="item.id"
+    :rowId="column.id"
+    :id="item.id"
     draggable="true"
     @dragstart="onDragStart(item)"
     />
 
 </RowWrapper>
  </div>
+ <PopupLayout v-if="kanbanStore.deletePopupState"/>
 </template>
 
 <style scoped>

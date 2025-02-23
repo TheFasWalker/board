@@ -43,9 +43,43 @@ export const useBoardStore = defineStore('board',{
           },
         ],
         draggedItem: null, 
+        deletePopupState:false,
+        deletingElem : null
       }),
       actions: {
-       
+       openDeletePopup(id:string|number,rowId:string|number){
+        const item = this.findItemById(id, rowId);
+        if (item) {
+          this.deletePopupState = true;
+          this.deletingElem = item;
+        }
+        },
+        deleteItem() {
+          if (this.deletingElem) {
+            
+            const column = this.columns.find((col) =>
+              col.items.some((item) => item.id === this.deletingElem.id)
+            );
+            if (column) {
+              
+              column.items = column.items.filter((item) => item.id !== this.deletingElem.id);
+            }
+            this.closeDeletePopup(); 
+          }
+        },
+
+        findItemById(id: string | number, rowId: string | number) {
+          const column = this.columns.find((col) => col.id === rowId);
+          if (column) {
+            return column.items.find((item) => item.id === id);
+          }
+          return null;
+        },
+        closeDeletePopup(){
+          this.deletePopupState = false
+          this.deletingElem=''
+        },
+
         setDraggedItem(item) {
           this.draggedItem = item;
         },

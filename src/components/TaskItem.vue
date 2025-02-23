@@ -15,7 +15,7 @@
             <Transition>
                 <div class="task__list" v-if="menu">
                     <button><img src="../assets/img/edit.png" > <span>Редактировать</span></button>
-                    <button><img src="../assets/img/trash.png" > <span>Удалить</span></button>
+                    <button @click="openDeletePopup(id ,rowId)"><img src="../assets/img/trash.png" > <span>Удалить</span></button>
                 </div>
             </Transition>
         </div>
@@ -24,11 +24,16 @@
     </div>
 </template>
 <script setup lang="ts">
+import { useBoardStore } from '@/store';
 import { ref } from 'vue';
+const kanbanStore = useBoardStore();
+const { openDeletePopup } = kanbanStore;
 
 const menu = ref(false)
 interface Props{
-    desc:string
+    desc:string,
+    rowId:string|number,
+    id:string|number
 }
 defineProps<Props>()
 </script>
@@ -56,11 +61,12 @@ defineProps<Props>()
         &__list{
             background-color: #FFFFFF;
             display: block;
-            top: 100%;
+            top: 20px;
             right: 0;
             position: absolute;
             padding: 8px 0;
             width: 144px;
+            z-index: 10;
             button{
                 padding: 5px 10px;
                 display: grid;
