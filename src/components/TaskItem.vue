@@ -19,7 +19,7 @@
             </button>
 
             <div class="task__list" v-if="menu" @click.outside="closeMenu" ref="taskListRef"> <!-- Переносим @click.outside -->
-                <button><img src="../assets/img/edit.png"> <span>Редактировать</span></button>
+                <!-- <button><img src="../assets/img/edit.png"> <span>Редактировать</span></button> -->
                 <button @click="openDeletePopup(id, rowId)"><img src="../assets/img/trash.png">
                     <span>Удалить</span></button>
             </div>
