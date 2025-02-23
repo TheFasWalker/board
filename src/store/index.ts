@@ -45,7 +45,7 @@ export const useBoardStore = defineStore('board',{
         sucsessToast:'',
         draggedItem: null, 
         deletePopupState:false,
-        deletingElem : null
+        deletingElem : null,
       }),
       actions: {
        openDeletePopup(id:string|number,rowId:string|number){
@@ -71,6 +71,12 @@ export const useBoardStore = defineStore('board',{
         deleteToast(){
           this.sucsessToast=''
           this.deletingElem=null
+        },
+        addTask(columnId: number, task: { id: number; desc: string }) {
+          const column = this.columns.find((col) => col.id === columnId);
+          if (column) {
+            column.items.push(task);
+          }
         },
         findItemById(id: string | number, rowId: string | number) {
           const column = this.columns.find((col) => col.id === rowId);
