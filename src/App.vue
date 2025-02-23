@@ -3,6 +3,7 @@ import RowWrapper from '@/components/RowWrapper.vue'
 import TaskItem from '@/components/TaskItem.vue'
 import { useBoardStore } from '@/store/index';
 import PopupLayout from './components/layouts/PopupLayout.vue';
+import ToastComponent from './components/ui/ToastComponent.vue';
 
   const kanbanStore = useBoardStore();
   const { columns,deletePopupState } = kanbanStore;
@@ -40,6 +41,7 @@ import PopupLayout from './components/layouts/PopupLayout.vue';
 </RowWrapper>
  </div>
  <PopupLayout v-if="kanbanStore.deletePopupState"/>
+ <ToastComponent v-if="kanbanStore.sucsessToast"/>
 </template>
 
 <style scoped>

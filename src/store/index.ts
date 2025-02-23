@@ -42,6 +42,7 @@ export const useBoardStore = defineStore('board',{
             items: [],
           },
         ],
+        sucsessToast:'',
         draggedItem: null, 
         deletePopupState:false,
         deletingElem : null
@@ -56,7 +57,6 @@ export const useBoardStore = defineStore('board',{
         },
         deleteItem() {
           if (this.deletingElem) {
-            
             const column = this.columns.find((col) =>
               col.items.some((item) => item.id === this.deletingElem.id)
             );
@@ -65,9 +65,13 @@ export const useBoardStore = defineStore('board',{
               column.items = column.items.filter((item) => item.id !== this.deletingElem.id);
             }
             this.closeDeletePopup(); 
+            this.sucsessToast = 'Задача удалена'
           }
         },
-
+        deleteToast(){
+          this.sucsessToast=''
+          this.deletingElem=null
+        },
         findItemById(id: string | number, rowId: string | number) {
           const column = this.columns.find((col) => col.id === rowId);
           if (column) {
@@ -77,7 +81,6 @@ export const useBoardStore = defineStore('board',{
         },
         closeDeletePopup(){
           this.deletePopupState = false
-          this.deletingElem=''
         },
 
         setDraggedItem(item) {
