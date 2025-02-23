@@ -1,21 +1,39 @@
 <script setup lang="ts">
 import RowWrapper from '@/components/RowWrapper.vue'
+import TaskItem from '@/components/TaskItem.vue'
+import { useBoardStore } from '@/store/index';
+
+  const kanbanStore = useBoardStore();
+  const { columns } = kanbanStore;
+
+  function onDragStart(item:any) {
+    kanbanStore.setDraggedItem(item);
+  }
+
+  function onDrop(columnId:any) {
+    kanbanStore.moveItemToColumn(columnId);
+  }
 </script>
 
 <template>
  <div class="body">
   <RowWrapper
-  title="На согласовании"
-  backgroundColor="#FF99E9"/>
-  <!-- <RowWrapper
-  title="Новые"/>
-  <RowWrapper
-  title="В процессе"/>
-  <RowWrapper
-  title="Готово"/>
-  <RowWrapper
-  title="Доработать"/> -->
+  v-for="column in columns"
+  :title="column.title"
+  :key="column.id"
+  :backgroundColor="column.color"
+  @dragover.prevent
+  @drop="onDrop(column.id)"
+>
+    <TaskItem 
+    v-for="item in column.items"
+    :desc="item?.desc"
+    :key="item.id"
+    draggable="true"
+    @dragstart="onDragStart(item)"
+    />
 
+</RowWrapper>
  </div>
 </template>
 
@@ -24,5 +42,6 @@ import RowWrapper from '@/components/RowWrapper.vue'
   display:grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
+  height: 100vh;
 }
 </style>
