@@ -45,24 +45,25 @@ export const useBoardStore = defineStore('board',{
         sucsessToast:'',
         draggedItem: null, 
         deletePopupState:false,
-        deletingElem : null,
+        editingElem : null,
+        
       }),
       actions: {
        openDeletePopup(id:string|number,rowId:string|number){
         const item = this.findItemById(id, rowId);
         if (item) {
           this.deletePopupState = true;
-          this.deletingElem = item;
+          this.editingElem = item;
         }
         },
         deleteItem() {
-          if (this.deletingElem) {
+          if (this.editingElem) {
             const column = this.columns.find((col) =>
-              col.items.some((item) => item.id === this.deletingElem.id)
+              col.items.some((item) => item.id === this.editingElem.id)
             );
             if (column) {
               
-              column.items = column.items.filter((item) => item.id !== this.deletingElem.id);
+              column.items = column.items.filter((item) => item.id !== this.editingElem.id);
             }
             this.closeDeletePopup(); 
             this.sucsessToast = 'Задача удалена'
@@ -70,7 +71,7 @@ export const useBoardStore = defineStore('board',{
         },
         deleteToast(){
           this.sucsessToast=''
-          this.deletingElem=null
+          this.editingElem=null
         },
         addTask(columnId: number, task: { id: number; desc: string }) {
           const column = this.columns.find((col) => col.id === columnId);
@@ -95,19 +96,19 @@ export const useBoardStore = defineStore('board',{
        
         moveItemToColumn(columnId) {
           if (!this.draggedItem) return;
-    
-          
+
           this.columns.forEach((column) => {
             column.items = column.items.filter((item) => item.id !== this.draggedItem.id);
           });
-    
-         
+
           const targetColumn = this.columns.find((col) => col.id === columnId);
           if (targetColumn && !targetColumn.items.includes(this.draggedItem)) {
+
             targetColumn.items.push(this.draggedItem);
+            this.editingElem = this.draggedItem;
+            this.sucsessToast = `Задача перенесена в колонку «${targetColumn.title}»`;
+
           }
-    
-         
           this.draggedItem = null;
         },
       },

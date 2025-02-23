@@ -13,7 +13,7 @@
             <div class="popup__content">
             <h2>Удалить задачу ?</h2>
             <div class="">
-                {{ kanbanStore.deletingElem.desc }}
+                {{ kanbanStore.editingElem.desc }}
             </div>
                 <div class="popup__buttons">
                     <button @click="deleteItem">Удалить</button>

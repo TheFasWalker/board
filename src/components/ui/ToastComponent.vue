@@ -8,7 +8,7 @@
                 </svg>
             </button>
             <h3>{{ kanbanStore.sucsessToast }}</h3>
-            <div class="toast__desc">{{ kanbanStore.deletingElem.desc }}</div>
+            <div class="toast__desc">{{ kanbanStore.editingElem.desc }}</div>
         </div>
 
     </div>
@@ -44,7 +44,7 @@ onMounted(()=>{
         grid-template-columns: 65px 1fr;
         width: 400px;
         h3{
-            font-weight: 584;
+            font-weight: bold;
             font-size: 14px;
             line-height: 125%;
             color: #1c2530;
